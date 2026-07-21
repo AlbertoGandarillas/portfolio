@@ -43,14 +43,14 @@ export default function Home() {
 
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button asChild>
-            <a href="mailto:alberto.gandarillas@theinfotechpartners.com">
+            <a href="mailto:acgl2015@gmail.com">
               <Mail />
               Contáctame
             </a>
           </Button>
           <Button asChild variant="outline">
             <a
-              href="https://github.com/albertogandarillas"
+              href="https://github.com/AlbertoGandarillas"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -60,7 +60,7 @@ export default function Home() {
           </Button>
           <Button asChild variant="outline">
             <a
-              href="https://www.linkedin.com/in/albertogandarillas"
+              href="https://pe.linkedin.com/in/alberto-gandarillas-40089360"
               target="_blank"
               rel="noopener noreferrer"
             >
