@@ -2,6 +2,7 @@ import { Construction, Mail } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BauhausBackground } from "@/components/bauhaus-background";
 
 function GithubIcon(props: React.ComponentProps<"svg">) {
   return (
@@ -21,9 +22,18 @@ function LinkedinIcon(props: React.ComponentProps<"svg">) {
 
 export default function Home() {
   return (
-    <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 py-24">
-      {/* Fondo decorativo */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_0%,var(--color-muted)_0%,transparent_70%)]" />
+    <main className="relative flex flex-1 flex-col items-center justify-center px-6 py-24">
+      {/* Fondo animado Bauhaus (Three.js) */}
+      <BauhausBackground />
+      {/* Viñeta para mantener legible el texto central sobre la animación */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 65% 55% at 50% 45%, var(--background) 0%, transparent 72%)",
+        }}
+      />
 
       <div className="flex w-full max-w-xl flex-col items-center gap-8 text-center">
         <Badge variant="secondary" className="gap-1.5 px-3 py-1 text-sm">
