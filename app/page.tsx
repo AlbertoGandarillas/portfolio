@@ -43,7 +43,7 @@ export default function Home() {
 
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button asChild>
-            <a href="mailto:acgl2015@gmail.com">
+            <a href="mailto:hola@albertogandarillas.com">
               <Mail />
               Contáctame
             </a>
