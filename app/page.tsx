@@ -45,29 +45,39 @@ export default function Home() {
       />
 
       <div className="flex w-full max-w-xl flex-col items-center gap-8 text-center">
-        <Badge variant="secondary" className="gap-1.5 px-3 py-1 text-sm">
+        <Badge
+          variant="secondary"
+          className="gap-2 rounded-none border border-foreground/10 bg-background/70 px-3 py-1 font-mono text-[0.7rem] font-normal uppercase tracking-[0.25em] text-foreground/70 backdrop-blur-sm"
+        >
           <Construction className="size-3.5" />
           En desarrollo
         </Badge>
 
-        <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+        <div className="flex flex-col gap-5">
+          <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-tight text-balance sm:text-6xl md:text-7xl">
             Alberto Gandarillas
           </h1>
-          <p className="text-lg text-muted-foreground text-pretty">
+          <p className="mx-auto max-w-md text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
             Estoy construyendo mi portafolio personal. Vuelve pronto para
             conocer mis proyectos, experiencia y en qué estoy trabajando.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Button asChild>
+          <Button
+            asChild
+            className="h-11 rounded-none px-6 font-mono text-xs uppercase tracking-widest"
+          >
             <a href="mailto:hola@albertogandarillas.com">
               <Mail />
               Contáctame
             </a>
           </Button>
-          <Button asChild variant="outline">
+          <Button
+            asChild
+            variant="outline"
+            className="h-11 rounded-none border-foreground/20 px-6 font-mono text-xs uppercase tracking-widest"
+          >
             <a
               href="https://github.com/AlbertoGandarillas"
               target="_blank"
@@ -77,7 +87,11 @@ export default function Home() {
               GitHub
             </a>
           </Button>
-          <Button asChild variant="outline">
+          <Button
+            asChild
+            variant="outline"
+            className="h-11 rounded-none border-foreground/20 px-6 font-mono text-xs uppercase tracking-widest"
+          >
             <a
               href="https://pe.linkedin.com/in/alberto-gandarillas-40089360"
               target="_blank"
@@ -90,7 +104,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="absolute bottom-6 text-sm text-muted-foreground">
+      <footer className="absolute bottom-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
         © {new Date().getFullYear()} Alberto Gandarillas
       </footer>
     </main>
