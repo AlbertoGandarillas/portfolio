@@ -1,6 +1,6 @@
 # Requirements — Contenido real de LinkedIn + rediseño Bauhaus nivel Awwwards
 
-Estado: **Borrador para revisión** · Owner: Alberto Gandarillas · Spec: `001-linkedin-bauhaus-redesign`
+Estado: **Aprobado — decisiones D1–D5 resueltas, listo para `tasks.md`** · Owner: Alberto Gandarillas · Spec: `001-linkedin-bauhaus-redesign`
 
 ## 1. Contexto
 
@@ -39,13 +39,25 @@ proyectos, métricas, clientes, testimonios ni fechas.
 > aplicaciones y crear MVPs rápidamente usando tecnologías de vanguardia.
 
 ### 2.3 Top Skills (según LinkedIn)
-Next.js · React.js · Tailwind CSS
+Next.js · React.js · Tailwind CSS · TypeScript *(este último confirmado vía la
+certificación de §2.5, no en la lista "Top Skills" original pero sí en el perfil)*
 
 ### 2.4 Idiomas
-Portugués · Inglés *(español no está listado explícitamente — ver decisión abierta D2)*
+Español (nativo) · Inglés · Portugués *(español confirmado por Alberto — D2 resuelta)*
 
 ### 2.5 Certificaciones
-Desarrollo Web Fullstack *(sin institución ni año especificados en el export — ver D3)*
+**Desarrollo Web Fullstack**
+- Institución: **TECSUP**
+- Emitida: **enero 2022**
+- Credential ID: **E-174067**
+- Skill asociado (tal como aparece en LinkedIn): **TypeScript**
+- URL de verificación ("Show credential"): *no visible en la captura aportada — si Alberto
+  la tiene a mano, se agrega; si no, se omite el link y se muestra solo el Credential ID
+  como referencia verificable.* (D3 resuelta con este detalle)
+
+> Nota para `design.md`/`content/profile.ts`: **TypeScript** se incorpora al stack técnico
+> (categoría Frontend) porque proviene de un dato verificado de LinkedIn (skill asociado a
+> la certificación), no es una adición libre.
 
 ### 2.6 Experiencia (orden tal como aparece en LinkedIn; ambas entradas "Present" comparten
 inicio en abril de 2011 → se muestran como roles concurrentes, no como error de datos)
@@ -208,17 +220,23 @@ Formato EARS (Easy Approach to Requirements Syntax).
 | Contenido | 100% de los datos visibles trazables a §2 de este documento |
 | Diseño (criterio Awwwards) | Identidad visual distintiva y consistente, jerarquía tipográfica clara, movimiento con propósito (no decorativo gratuito), usabilidad sin fricción |
 
-## 7. Decisiones abiertas (requieren confirmación de Alberto antes de pasar a `tasks.md`)
+## 7. Decisiones (resueltas por Alberto — 2026-07-29)
 
-- **D1 — Email de contacto:** ¿mantener `hola@albertogandarillas.com` (ya operativo) como
-  CTA principal, o usar `albertogandarillas@hotmail.com` del perfil? *Recomendación:
-  mantener `hola@`.*
-- **D2 — Español como idioma listado:** LinkedIn no lista español explícitamente (solo
-  inglés/portugués). ¿Se agrega "Español (nativo)" al bloque de idiomas del sitio?
-- **D3 — Certificación "Desarrollo Web Fullstack":** el export no trae institución ni año.
-  ¿Se completa el dato o se muestra solo el nombre de la certificación?
-- **D4 — Roles concurrentes 2011–presente:** ¿mostrar Info Tech Partners y Hildebrando como
-  dos tarjetas paralelas, o fusionarlas en una sola entrada "2011–presente" con dos líneas
-  de rol? *Recomendación: dos tarjetas conectadas visualmente (ver `design.md`).*
-- **D5 — Modo oscuro:** los tokens `.dark` ya existen en `globals.css` pero no hay switch
-  en UI. ¿Se agrega toggle claro/oscuro (paper/ink) en esta iteración o queda para después?
+- **D1 — Email de contacto:** ✅ **Resuelto.** Se mantiene `hola@albertogandarillas.com`
+  como CTA principal en todo el sitio (Hero, Contacto/Footer). No se usa el email del
+  export de LinkedIn (`albertogandarillas@hotmail.com`).
+- **D2 — Español como idioma listado:** ✅ **Resuelto.** Se agrega **"Español (nativo)"**
+  al bloque de idiomas, junto a Inglés y Portugués (ver §2.4 actualizado).
+- **D3 — Certificación "Desarrollo Web Fullstack":** ✅ **Resuelto.** Institución TECSUP,
+  emitida enero 2022, Credential ID `E-174067`, skill asociado TypeScript (ver §2.5
+  actualizado). Falta únicamente la URL de verificación (opcional, no bloqueante).
+- **D4 — Roles concurrentes 2011–presente:** ✅ **Resuelto.** Se sigue la recomendación:
+  Info Tech Partners e Hildebrando se muestran como **dos tarjetas conectadas** en el mismo
+  punto de la línea de tiempo (ver `design.md` §4.3, `concurrentGroup`).
+- **D5 — Modo oscuro:** ✅ **Resuelto — SÍ, dentro de esta iteración.** Se agrega un
+  toggle claro/oscuro (paper/ink) visible en el sitio, usando los tokens `.dark` ya
+  existentes en `globals.css`. Ver especificación completa en `design.md` §10.
+
+Con las 5 decisiones resueltas, este documento queda **congelado como fuente de verdad**
+para `design.md` y `tasks.md`. Cualquier corrección posterior a los datos de LinkedIn debe
+registrarse aquí primero.

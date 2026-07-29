@@ -1,18 +1,24 @@
 # Tasks — Plan de implementación
 
-Depende de: `requirements.md`, `design.md`. **No empezar hasta resolver las decisiones
-abiertas D1–D5 de `requirements.md` §7** (o confirmar explícitamente las recomendaciones
-por defecto).
+Depende de: `requirements.md`, `design.md`. **Decisiones D1–D5 ya resueltas** (ver
+`requirements.md` §7, 2026-07-29): email `hola@`, Español agregado, certificación TECSUP
+completa, roles concurrentes en tarjetas conectadas, modo oscuro **sí** en esta iteración.
 
 Convención: cada tarea es independiente y verificable. Marcar `[x]` al completar.
 Rutas de archivo son las reales del repo (`/home/user/portfolio`).
 
 ## M0 — Preparación y capa de contenido
 
-- [ ] Confirmar decisiones D1–D5 con Alberto (registrar respuesta al pie de
-      `requirements.md` §7).
+- [x] Confirmar decisiones D1–D5 con Alberto — resuelto 2026-07-29, ver
+      `requirements.md` §7.
 - [ ] Crear `content/profile.ts` implementando el contrato de `design.md` §5, con los
       datos reales de `requirements.md` §2 (sin placeholders ni datos inventados).
+      Incluye: TypeScript en `skills.frontend`, Español marcado `isNative` en
+      `languages`, y `certifications` como objeto estructurado (TECSUP, enero 2022,
+      `E-174067`, skill asociado TypeScript).
+- [ ] Agregar script inline anti-FOUC de tema en `app/layout.tsx` (`design.md` §10.1):
+      lee `localStorage.theme` o `prefers-color-scheme`, aplica clase `dark` a `<html>`
+      antes de hidratar. Sin nuevas dependencias.
 - [ ] Crear helper `lib/dates.ts` con función `formatDuration(start, end)` que calcule
       "X años Y meses" en runtime a partir de fechas ISO (evita strings hardcodeados que
       quedan obsoletos — cumple HU-3).
@@ -44,6 +50,9 @@ Rutas de archivo son las reales del repo (`/home/user/portfolio`).
 - [ ] `components/contact-links.tsx` — extraer los 3 CTAs (email/GitHub/LinkedIn) del
       hero actual (`app/page.tsx`) a un componente reutilizable, sin cambiar su
       comportamiento actual.
+- [ ] `components/theme-toggle.tsx` — botón claro/oscuro según `design.md` §10.1
+      (`rounded-none`, ícono sol/luna de `lucide-react`, persistencia en `localStorage`,
+      ubicado junto al índice de navegación).
 - [ ] (Opcional, si se prioriza fidelidad visual completa) `components/bauhaus-background.tsx`
       — agregar variante `variant="ambient"` con menos formas/opacidad reducida para
       secciones no-hero, reutilizando las funciones constructoras ya existentes
@@ -87,6 +96,11 @@ Rutas de archivo son las reales del repo (`/home/user/portfolio`).
       hero sale del viewport en scroll profundo.
 - [ ] Verificar que `prefers-reduced-motion: reduce` desactiva **todos** los efectos
       nuevos (no solo el canvas), mostrando el contenido ya visible.
+- [ ] Hacer que `components/bauhaus-background.tsx` reaccione al cambio de tema
+      (`design.md` §10.2): observar la clase `dark` en `<html>` y swapear el color base
+      `cream`↔`ink` sin reiniciar el loop de animación.
+- [ ] Ajustar el `mix-blend-mode` del grano/textura en `app/page.tsx` según el tema
+      activo (`multiply` en claro, `screen` en oscuro — `design.md` §10.2).
 
 ## M5 — Accesibilidad
 
@@ -96,6 +110,7 @@ Rutas de archivo son las reales del repo (`/home/user/portfolio`).
 - [ ] `aria-current` en el link activo del índice de navegación.
 - [ ] Verificar contraste AA de todo texto sobre fondo animado (usar herramienta de
       contraste, no solo inspección visual) — replicar la viñeta del hero donde aplique.
+      **Verificar en ambos temas (claro y oscuro), no solo claro** (`design.md` §10.3).
 - [ ] Navegación completa por teclado (Tab a través de índice, CTAs, links del footer;
       sin trampas de foco).
 - [ ] Auditoría con Lighthouse Accessibility (objetivo ≥ 95, `requirements.md` §6).
@@ -116,8 +131,8 @@ Rutas de archivo son las reales del repo (`/home/user/portfolio`).
       `requirements.md` §2 (checklist manual, cumple HU-9).
 - [ ] Verificación visual en 375px, 768px, 1440px (mínimo).
 - [ ] `npm run build` y `npm run lint` sin errores.
-- [ ] Captura de pantalla (claro y, si D5 = sí, oscuro) para validar composición final
-      antes de mergear.
+- [ ] Captura de pantalla en **ambos temas (claro y oscuro)** para validar composición
+      final antes de mergear.
 - [ ] Commit + push a `main` (o PR, según preferencia de Alberto en el momento) →
       verificar deploy en Vercel y `albertogandarillas.com`.
 

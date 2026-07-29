@@ -170,12 +170,16 @@ Un índice fijo, minimalista, estilo catálogo de exposición — no una navbar 
 - Cada tile usa un color de acento distinto de la paleta (rotación fija, no aleatoria).
 
 ### 4.6 Formación & Idiomas
-- Bloque compacto de dos columnas (desktop) / apiladas (mobile):
+- Bloque compacto de dos/tres columnas (desktop) / apiladas (mobile):
   - **Educación:** Universidad San Ignacio de Loyola — Ingeniería en Sistemas de
     Información (1995–1998).
-  - **Idiomas:** Inglés, Portugués (+ Español si se confirma D2).
-  - **Certificación:** Desarrollo Web Fullstack (con nota "institución/año a confirmar"
-    si D3 queda sin resolver — no se debe inventar el dato para "completar" visualmente).
+  - **Idiomas:** Español (nativo), Inglés, Portugués — como chips `font-mono uppercase`,
+    el nativo con un acento visual distinto (ej. punto de color) del resto.
+  - **Certificación:** tarjeta con **Desarrollo Web Fullstack — TECSUP**, emitida enero
+    2022, `Credential ID E-174067`, badge del skill asociado (**TypeScript**). Si Alberto
+    aporta la URL de verificación, el nombre del emisor es un link externo
+    (`rel="noopener noreferrer" target="_blank"`); si no, se muestra sin link, sin
+    inventar una URL.
 
 ### 4.7 Contacto / Footer
 - CTA repetido a pantalla completa o casi (`font-display` grande: "HABLEMOS" o similar),
@@ -218,6 +222,20 @@ export interface Highlight {
   accent: "red" | "blue" | "yellow" | "navy";
 }
 
+export interface Certification {
+  name: string;          // "Desarrollo Web Fullstack"
+  issuer: string;         // "TECSUP"
+  issuedDate: string;      // ISO "2022-01"
+  credentialId?: string;   // "E-174067"
+  credentialUrl?: string;  // opcional — no inventar si no se tiene
+  associatedSkills?: string[]; // ["TypeScript"]
+}
+
+export interface LanguageEntry {
+  name: string;              // "Español"
+  isNative?: boolean;
+}
+
 export const profile = {
   name: "Alberto Gandarillas",
   headline: "Senior Full-Stack Developer",
@@ -234,14 +252,27 @@ export const profile = {
     origin: "…",
   },
   skills: {
-    frontend: ["React.js", "Next.js", "Tailwind CSS"],
+    frontend: ["React.js", "Next.js", "Tailwind CSS", "TypeScript"],
     platform: ["C#", "Azure DevOps", "Vercel", "CI/CD"],
     ai: ["Claude", "Cursor AI"],
   },
   experience: [/* 8 entradas, ver requirements.md §2.6 */] satisfies ExperienceEntry[],
   education: [/* 1 entrada, ver requirements.md §2.7 */] satisfies EducationEntry[],
-  languages: ["Inglés", "Portugués"], // + "Español" si D2 = sí
-  certifications: ["Desarrollo Web Fullstack"],
+  languages: [
+    { name: "Español", isNative: true },
+    { name: "Inglés" },
+    { name: "Portugués" },
+  ] satisfies LanguageEntry[],
+  certifications: [
+    {
+      name: "Desarrollo Web Fullstack",
+      issuer: "TECSUP",
+      issuedDate: "2022-01",
+      credentialId: "E-174067",
+      // credentialUrl: no disponible — agregar solo si Alberto la provee
+      associatedSkills: ["TypeScript"],
+    },
+  ] satisfies Certification[],
   highlights: [/* 3-4 entradas, ver §4.5 */] satisfies Highlight[],
 } as const;
 ```
@@ -297,3 +328,39 @@ contrato exacto que Cursor debe implementar en `tasks.md`.
   custom nuevos salvo que el fondo Bauhaus lo requiera (ver gap técnico en §4.1).
 - Verificar manualmente en 375px (mobile chico), 768px (tablet) y 1440px (desktop) como
   mínimo — parte de la verificación en `tasks.md`.
+
+## 10. Modo oscuro (toggle claro/oscuro — D5: en alcance)
+
+`app/globals.css` ya define tokens `.dark` (background/foreground/card/etc.) que hoy no
+se usan porque no existe ningún control en la UI. Esta sección especifica ese control y
+su efecto sobre el fondo Bauhaus.
+
+### 10.1 Componente `ThemeToggle`
+- Nuevo: `components/theme-toggle.tsx`, client component.
+- Botón cuadrado (`rounded-none`, mismo lenguaje visual que `Button`/`Badge` ya
+  estilizados), ícono sol/luna (`lucide-react`, ya es dependencia del proyecto).
+- Ubicación: fijo en la esquina superior derecha, junto al índice de navegación (§4.0) —
+  agrupado visualmente con él, no flotando suelto.
+- Acción: alterna la clase `dark` en `<html>` y persiste la preferencia en
+  `localStorage` (`key: "theme"`, valores `"light" | "dark"`).
+- **Sin flash de tema incorrecto (FOUC):** en `app/layout.tsx`, un script inline mínimo
+  en el `<head>` (antes de hidratar React) lee `localStorage.theme`, o si no existe,
+  `window.matchMedia("(prefers-color-scheme: dark)")`, y aplica la clase `dark` a
+  `<html>` de forma síncrona. No se agrega ninguna dependencia nueva (no `next-themes`);
+  es un patrón manual de unas pocas líneas, consistente con el guardrail de
+  `requirements.md` §5.5 (sin nuevas dependencias de UI).
+
+### 10.2 Comportamiento visual por tema
+
+| Elemento | Claro (actual) | Oscuro |
+|---|---|---|
+| Fondo base | Papel crema `oklch(0.972 0.008 83)` | Tinta casi negra (usar el `--background` ya definido en `.dark` de `globals.css`) |
+| Texto | `ink` (#161311) sobre crema | Crema/blanco roto sobre tinta (tokens `.dark` ya definidos) |
+| Acentos (red/blue/yellow/navy) | Tal cual | **Se mantienen los mismos 4 valores** — deben verificarse por contraste (§10.3), no se crean variantes de color nuevas: la identidad Bauhaus depende de esta paleta fija en ambos temas. |
+| Fondo Bauhaus (`BauhausBackground`) | Formas sobre papel crema | Formas sobre tinta — el componente debe leer el tema activo (observar la clase `dark` en `<html>` vía `MutationObserver` o recibir el tema por contexto/prop) y swapear su color base `cream`↔`ink` sin reiniciar el loop de animación. |
+| Grano/textura (`app/page.tsx`) | `mix-blend-multiply` sobre claro | Cambiar a `mix-blend-screen` (o equivalente) para que el grano siga siendo sutil sobre fondo oscuro en vez de invisible/incorrecto. |
+
+### 10.3 Verificación obligatoria
+Todo texto y acento debe seguir cumpliendo AA (§7 de este documento) **en ambos temas**,
+no solo en claro — agregar como paso explícito de QA en `tasks.md` M5/M7 (no asumir que
+"ya pasaba en claro" implica que pasa en oscuro).
