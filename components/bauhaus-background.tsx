@@ -62,6 +62,17 @@ export function BauhausBackground() {
     const scene = new THREE.Scene();
     const world = new THREE.Group();
     scene.add(world);
+    const applyTheme = () => {
+      scene.background = new THREE.Color(
+        document.documentElement.classList.contains("dark") ? C.ink : C.cream
+      );
+    };
+    applyTheme();
+    const themeObserver = new MutationObserver(applyTheme);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
     // --- cámara / tamaño ---
     const camera = new THREE.OrthographicCamera(0, 0, 0, 0, 0.1, 100);
@@ -77,6 +88,7 @@ export function BauhausBackground() {
       camera.top = FRUSTUM / 2;
       camera.bottom = -FRUSTUM / 2;
       camera.updateProjectionMatrix();
+      world.scale.setScalar(width < 640 ? 0.5 : width < 900 ? 0.78 : 1);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(width, height);
     };
@@ -441,21 +453,39 @@ export function BauhausBackground() {
     };
 
     let frame = 0;
+    let heroVisible = true;
     const loop = () => {
       step(clock.getElapsedTime());
       frame = requestAnimationFrame(loop);
+    };
+    const stopLoop = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    };
+    const startLoop = () => {
+      if (!frame && !reducedMotion && !document.hidden && heroVisible) {
+        clock.getDelta();
+        loop();
+      }
     };
 
     const onResize = () => applySize();
     const onVisibility = () => {
       if (document.hidden) {
-        cancelAnimationFrame(frame);
-        frame = 0;
-      } else if (!frame && !reducedMotion) {
-        clock.getDelta();
-        loop();
+        stopLoop();
+      } else {
+        startLoop();
       }
     };
+    const viewportObserver = new IntersectionObserver(
+      ([entry]) => {
+        heroVisible = entry.isIntersecting;
+        if (heroVisible) startLoop();
+        else stopLoop();
+      },
+      { threshold: 0.01 }
+    );
+    viewportObserver.observe(container);
 
     window.addEventListener("resize", onResize);
     if (reducedMotion) {
@@ -471,6 +501,8 @@ export function BauhausBackground() {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("visibilitychange", onVisibility);
+      viewportObserver.disconnect();
+      themeObserver.disconnect();
       for (const g of geos) g.dispose();
       for (const m of mats) m.dispose();
       for (const t of texs) t.dispose();
@@ -485,7 +517,7 @@ export function BauhausBackground() {
     <div
       ref={containerRef}
       aria-hidden
-      className="pointer-events-none fixed inset-0 -z-20"
+      className="pointer-events-none absolute inset-0 -z-20"
     />
   );
 }

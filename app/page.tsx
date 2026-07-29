@@ -1,112 +1,88 @@
-import { Construction, Mail } from "lucide-react";
-
+import { BauhausBackground } from "@/components/bauhaus-background";
+import { SectionIndexNav } from "@/components/section-index-nav";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BauhausBackground } from "@/components/bauhaus-background";
-
-function GithubIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.12-.31-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.23 0 4.63-2.81 5.65-5.49 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z" />
-    </svg>
-  );
-}
-
-function LinkedinIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" />
-    </svg>
-  );
-}
+import { profile } from "@/content/profile";
+import { AboutSection } from "@/app/sections/about";
+import { ContactSection } from "@/app/sections/contact";
+import { EducationSection } from "@/app/sections/education";
+import { ExperienceSection } from "@/app/sections/experience";
+import { HighlightsSection } from "@/app/sections/highlights";
+import { StackSection } from "@/app/sections/stack";
 
 export default function Home() {
   return (
-    <main className="relative flex flex-1 flex-col items-center justify-center px-6 py-24">
-      {/* Fondo animado Bauhaus (Three.js) */}
-      <BauhausBackground />
-      {/* Viñeta para mantener legible el texto central sobre la animación */}
+    <>
+      <a
+        href="#contenido"
+        className="focus-bauhaus fixed top-3 left-1/2 z-[100] -translate-x-1/2 -translate-y-24 bg-foreground px-4 py-3 font-mono text-xs text-background uppercase focus:translate-y-0"
+      >
+        Saltar al contenido
+      </a>
+      <ThemeToggle />
+      <SectionIndexNav />
       <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(ellipse 58% 52% at 50% 45%, var(--background) 0%, color-mix(in oklch, var(--background) 55%, transparent) 42%, transparent 70%)",
-        }}
+        aria-hidden="true"
+        className="grain pointer-events-none fixed inset-0 z-30 opacity-[0.035]"
+        style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }}
       />
-      {/* Grano sutil tipo cartel impreso */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10 opacity-[0.04] mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
-
-      <div className="flex w-full max-w-xl flex-col items-center gap-8 text-center">
-        <Badge
-          variant="secondary"
-          className="gap-2 rounded-none border border-foreground/10 bg-background/70 px-3 py-1 font-mono text-[0.7rem] font-normal uppercase tracking-[0.25em] text-foreground/70 backdrop-blur-sm"
+      <main id="contenido">
+        <section
+          aria-labelledby="hero-title"
+          className="relative flex min-h-svh items-center justify-center overflow-hidden px-6 py-24"
         >
-          <Construction className="size-3.5" />
-          En desarrollo
-        </Badge>
-
-        <div className="flex flex-col gap-5">
-          <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-tight text-balance sm:text-6xl md:text-7xl">
-            Alberto Gandarillas
-          </h1>
-          <p className="mx-auto max-w-md text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
-            Estoy construyendo mi portafolio personal. Vuelve pronto para
-            conocer mis proyectos, experiencia y en qué estoy trabajando.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <Button
-            asChild
-            className="h-11 rounded-none px-6 font-mono text-xs uppercase tracking-widest"
-          >
-            <a href="mailto:hola@albertogandarillas.com">
-              <Mail />
-              Contáctame
-            </a>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            className="h-11 rounded-none border-foreground/20 px-6 font-mono text-xs uppercase tracking-widest"
-          >
-            <a
-              href="https://github.com/AlbertoGandarillas"
-              target="_blank"
-              rel="noopener noreferrer"
+          <BauhausBackground />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 65% 55% at 50% 48%, var(--background) 0%, color-mix(in oklch, var(--background) 75%, transparent) 50%, transparent 78%)",
+            }}
+          />
+          <div className="flex w-full max-w-3xl flex-col items-center gap-8 text-center">
+            <Badge
+              variant="secondary"
+              className="rounded-none border border-foreground/20 bg-background/75 px-3 py-1.5 font-mono text-[0.65rem] font-normal tracking-[0.2em] uppercase backdrop-blur-sm"
             >
-              <GithubIcon />
-              GitHub
-            </a>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            className="h-11 rounded-none border-foreground/20 px-6 font-mono text-xs uppercase tracking-widest"
+              {profile.headline} · {profile.headlineTags.join(" · ")}
+            </Badge>
+            <div className="flex flex-col gap-5">
+              <h1
+                id="hero-title"
+                className="font-display text-5xl leading-[0.86] tracking-tight text-balance uppercase sm:text-6xl md:text-8xl"
+              >
+                {profile.name}
+              </h1>
+              <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+                Desarrollo aplicaciones web modernas de extremo a extremo y uso IA para acelerar la creación de productos.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Button asChild className="focus-bauhaus h-11 rounded-none px-6 font-mono text-xs tracking-widest uppercase">
+                <a href="#trayectoria">Ver trayectoria</a>
+              </Button>
+              <Button asChild variant="outline" className="focus-bauhaus h-11 rounded-none border-foreground/30 bg-background/70 px-6 font-mono text-xs tracking-widest uppercase backdrop-blur-sm">
+                <a href="#contacto">Contactar</a>
+              </Button>
+            </div>
+          </div>
+          <a
+            href="#sobre-mi"
+            aria-label="Ir a Sobre mí"
+            className="focus-bauhaus absolute bottom-7 left-1/2 -translate-x-1/2 font-mono text-[0.65rem] tracking-[0.25em] uppercase"
           >
-            <a
-              href="https://pe.linkedin.com/in/alberto-gandarillas-40089360"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <LinkedinIcon />
-              LinkedIn
-            </a>
-          </Button>
-        </div>
-      </div>
-
-      <footer className="absolute bottom-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-        © {new Date().getFullYear()} Alberto Gandarillas
-      </footer>
-    </main>
+            Scroll ↓
+          </a>
+        </section>
+        <AboutSection />
+        <ExperienceSection />
+        <StackSection />
+        <HighlightsSection />
+        <EducationSection />
+        <ContactSection />
+      </main>
+    </>
   );
 }
